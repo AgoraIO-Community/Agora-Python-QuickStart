@@ -18,6 +18,6 @@ protoc *.proto --python_out=.
 - Download pre-trained models from [here](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md). We recommend `ssd_mobilenet_v1_coco` and `ssdlite_mobilenet_v2_coco` since they are much faster.
 - To extract the frozen graph, run:
 ```
-python extractGraph.py --model='YOUR MODEL NAME'
+python extractGraph.py --model='YOUR_MODEL_NAME'
 ```
 - Finally, specify your model name in the beginning of `callBack.py` and your AppId in the beginning of `demo.py`.
