@@ -20,4 +20,4 @@ protoc *.proto --python_out=.
 ```
 python extractGraph.py --model='YOUR MODEL NAME'
 ```
-Finally, specify your model name in the beginning of `callBack.py` and your AppId in the beginning of `demo.py`.
+- Finally, specify your model name in the beginning of `callBack.py` and your AppId in the beginning of `demo.py`.
