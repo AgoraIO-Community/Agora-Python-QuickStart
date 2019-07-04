@@ -1,4 +1,4 @@
-# Agora 1-to-1 Python Demo integrated with Tensorflow
+# Agora 1-to-1 Python Demo Integrated with Tensorflow
 This is a simple python demo for Agora 1-to-1 video call extended by Tensorflow object detection API.
 
 ## Requirements
