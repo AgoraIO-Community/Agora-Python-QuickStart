@@ -11,7 +11,7 @@ import numpy as np
 import tensorflow as tf
 from utility import checkStr
 
-appId = b"466c2ed3224c4e42996f7e08d2bb7193"
+appId = b""
 
 Engine = IAgoraRtcEngine.pycreateAgoraRtcEngine()
 ctx = IAgoraRtcEngine.pyRtcEngineContext()
