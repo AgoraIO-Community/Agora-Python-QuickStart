@@ -1,6 +1,10 @@
 # Agora 1-to-1 Python Demo Integrated with Tensorflow
 This is a simple python demo for Agora 1-to-1 video call extended by Tensorflow object detection API.
 
+其他语言版本：  [简体中文](https://github.com/AgoraIO-Community/Agora-Python-Tensorflow-Demo/blob/master/README.zh.md)
+
+
+
 ## Requirements
 - Python 3.6
 - Tensorflow >= 1.12
@@ -20,3 +24,6 @@ protoc object_detection/protos/*.proto --python_out=.
 python extractGraph.py --model_file='FILE_NAME_OF_YOUR_MODEL'
 ```
 - Finally, specify your model name in the beginning of `callBack.py` and your AppId in the beginning of `demo.py`.
+
+## License
+- MIT
