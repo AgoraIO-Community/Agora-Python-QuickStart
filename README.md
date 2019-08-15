@@ -25,5 +25,4 @@ python extractGraph.py --model_file='FILE_NAME_OF_YOUR_MODEL'
 ```
 - Finally, specify your model name in the beginning of `callBack.py` and your AppId in the beginning of `demo.py`.
 
-## License
-- MIT
+
