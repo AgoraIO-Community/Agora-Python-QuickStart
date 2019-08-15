@@ -55,8 +55,7 @@ Other languages： [English](https://github.com/AgoraIO-Community/Agora-Python-T
 
 - 如果发现了示例代码的 bug, 欢迎提交 [issue](https://github.com/AgoraIO-Community/Agora-Python-Tensorflow-Demo/issues)
 
-## License
-MIT
+
 
 
 
