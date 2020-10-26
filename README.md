@@ -25,7 +25,7 @@ This is a python demo for Agora 1-to-1 video call extended a new feature -- Real
 We encourage you to use [Anaconda](https://www.anaconda.com/) to [create a new separate environment](https://docs.anaconda.com/anaconda/navigator/tutorials/manage-environments/#id3) other than using your existed Python to avoid possible environmental conflicts to your other projects. After creating a new environment, switch from base to your new environment:
 
 ```bash
-conda activate [your-env-name]
+source activate [your-env-name]
 ```
 
 #### 1. Install all required packages via pip (except face_recognition)
