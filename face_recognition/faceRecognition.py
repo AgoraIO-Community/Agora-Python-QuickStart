@@ -104,7 +104,7 @@ class faceRecognition():
                 if gender_age:
                     res = self.predict_gender_age(face_image)
                     genders.append("M" if np.argmax(res[0], axis=1)[0] == 1 else "F")
-                    ages.append(np.argmax(res[1], axis=1)[0] - 10)
+                    ages.append(np.argmax(res[1], axis=1)[0] - 5)
                 else:
                     genders.append("N/A")
                     ages.append(-1)

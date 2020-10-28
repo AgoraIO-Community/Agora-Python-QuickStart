@@ -1,6 +1,6 @@
 # Agora 1-to-1 Face Recognition Python Demo
 
-This is a python demo for Agora 1-to-1 video call extended a new feature -- Real Time Face Recognition. It supports face recognition, emotion detection and age and gender detection.
+This is a python demo for Agora 1-to-1 video call extended a new feature -- Real Time Face Recognition. It allows face recognition, emotion detection and age and gender detection.
 
 
 
@@ -17,7 +17,6 @@ This is a python demo for Agora 1-to-1 video call extended a new feature -- Real
 - OpenCV (headless)
 - Keras
 - PyQt5
-- PIL
 - face_recognition
 
 ### Installation Options:
@@ -25,20 +24,18 @@ This is a python demo for Agora 1-to-1 video call extended a new feature -- Real
 We encourage you to use [Anaconda](https://www.anaconda.com/) to [create a new separate environment](https://docs.anaconda.com/anaconda/navigator/tutorials/manage-environments/#id3) other than using your existed Python to avoid possible environmental conflicts to your other projects. After creating a new environment, switch from base to your new environment:
 
 ```bash
-source activate [your-env-name]
+conda activate [your-env-name]
 ```
 
 #### 1. Install all required packages via pip (except face_recognition)
 
 ```bash
-pip install numpy PyQt5 opencv-python-headless pillow keras
+pip install numpy pyqt5 opencv-python-headless pillow keras
 ```
 
-#### 2. Install face_recognition
+#### 2. Install face_recognition (Adapted from [here](https://github.com/ageitgey/face_recognition/blob/master/README.md#installation))
 
-*Adapted from [here](https://github.com/ageitgey/face_recognition/blob/master/README.md#installation)*.
-
-##### A. Installing on macOS or Linux
+##### Installing on macOS or Linux
 
 **First, make sure you have dlib already installed with Python bindings:**
 
@@ -54,7 +51,7 @@ We recommend you to use [Homebrew](https://brew.sh/) on macOS: `brew install cma
 pip install face_recognition
 ```
 
-##### B. Installing on Windows
+##### Installing on Windows
 
 While Windows has not been officially supported yet, helpful users have posted instructions on how to install this library:
 
@@ -64,24 +61,9 @@ or **installing a pre-configured Virtual Machine image**
 
 - [Download the pre-configured VM image](https://medium.com/@ageitgey/try-deep-learning-in-python-now-with-a-fully-pre-configured-vm-1d97d4c3e9b) (for VMware Player or VirtualBox).
 
-## Run Demo
+### Run Demo
 
-#### 1. Clone and Compile Python SDK
-
-- Clone [Agora Python SDK](https://github.com/AgoraIO-Community/Agora-Python-SDK).
-- Follow the [instructions](https://github.com/AgoraIO-Community/Agora-Python-SDK#compile-sdk) to compile Python SDK.
-
-#### 2. Clone the repository
-
-Clone our repository to the `API-Examples` folder via the following directory structure:
-
-```
-Agora-Python-SDK
-├── API-Examples
-│   ├── Agora-Python-Tensorflow-Demo
-```
-
-#### 3. Download the required pre-trained models
+#### 1. Download the required pre-trained models
 
 Download the following 2 pre-trained models:
 
@@ -91,20 +73,20 @@ Download the following 2 pre-trained models:
 Create an empty folder called `model` and move the models into the folder via the following directory structure:
 
 ```
-Agora-Python-SDK
+Python-SDK
 ├── API-Examples
-│   ├── Agora-Python-Tensorflow-Demo
+│   ├── face-recognition
 │   │   ├── model
 │   │   │   ├── model_v6_23.hdf5
 │   │   │   ├── weights.28-3.73.hdf5
 ```
 
-#### 4. (Optional) Add some face photos via the following directory structure
+#### 2. (Optional) Add some face photos via the following directory structure
 
 ```
 Agora-Python-SDK
 ├── API-Examples
-│   ├── Agora-Python-Tensorflow-Demo
+│   ├── face-recognition
 │   │   ├── database
 │   │   │   ├── Alice
 │   │   │   │   ├── Alice1.jpg
@@ -113,7 +95,10 @@ Agora-Python-SDK
 │   │   │   │   ├── Bob.jpg
 ```
 
-#### 5. Run Demo
+#### 3. Run Demo
 
-Go to `API-Examples/Agora-Python-Tensorflow-Demo` folder, run `python face_recog.py`
+Go to `API-Examples/face-recognition` folder, run `python face_recog.py`
 
+
+
+Enjoy : )

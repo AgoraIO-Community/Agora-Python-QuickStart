@@ -1,7 +1,3 @@
-import os
-import sys
-
-sys.path.append(os.path.abspath('../../'))
 import agorartc
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtWidgets import QMessageBox
@@ -299,8 +295,6 @@ class MyWindow(QtWidgets.QMainWindow, MainWindow.Ui_MainWindow):
         self.leaveButton.clicked.connect(self.leaveChannel)
         self.enableButton.clicked.connect(self.enableLocalVideo)
         self.disableButton.clicked.connect(self.disableLocalVideo)
-        self.beauty_on_btn.clicked.connect(self.beautyOn)
-        self.beauty_off_btn.clicked.connect(self.beautyOff)
         self.enable_ap_btn.clicked.connect(self.enableAdvancedPredict)
         self.disable_ap_btn.clicked.connect(self.disableAdvancedPredict)
         self.rtc = agorartc.createRtcEngineBridge()
@@ -326,23 +320,22 @@ class MyWindow(QtWidgets.QMainWindow, MainWindow.Ui_MainWindow):
                                     "The channel name contains illegal character.",
                                     QMessageBox.Yes)
             return
-        if len(self.channelEdit.toPlainText()) == 0:
+        if len(self.channelEdit.text()) == 0:
             QMessageBox.information(self, "Message",
                                     "Please input the channel name.",
                                     QMessageBox.Yes)
             return
-        if len(self.channelEdit.toPlainText()) > 64:
+        if len(self.channelEdit.text()) > 64:
             QMessageBox.information(self, "Message",
                                     "The length of the channel name must be less than 64.",
                                     QMessageBox.Yes)
             return
 
-        self.rtc.initialize(self.appIdEdit.toPlainText(), None, agorartc.AREA_CODE_GLOB & 0xFFFFFFFF)
+        self.rtc.initialize(self.appIdEdit.text(), None, agorartc.AREA_CODE_GLOB & 0xFFFFFFFF)
         self.rtc.enableVideo()
-        self.rtc.enableLocalVideo(True)
         localVideoCanvas = agorartc.createVideoCanvas(localWinId)
         ret = self.rtc.setupLocalVideo(localVideoCanvas)
-        channelName = self.channelEdit.toPlainText()
+        channelName = self.channelEdit.text()
         self.rtc.joinChannel("", channelName, "", 0)
         self.rtc.startPreview()
         agorartc.registerVideoFrameObserver(self.rtc, self.videoFrameObserver)
@@ -357,20 +350,8 @@ class MyWindow(QtWidgets.QMainWindow, MainWindow.Ui_MainWindow):
     def disableLocalVideo(self):
         self.rtc.enableLocalVideo(False)
 
-    def beautyOn(self):
-        beautyOption = agorartc.BeautyOptions()
-        beautyOption.lighteningContrastLevel = agorartc.BeautyOptions.LIGHTENING_CONTRAST_HIGH
-        beautyOption.lighteningLevel = 1.0
-        beautyOption.smoothnessLevel = 1.0
-        beautyOption.rednessLevel = 1.0
-        self.rtc.setBeautyEffectOptions(True, beautyOption)
-
-    def beautyOff(self):
-        beautyOption = agorartc.BeautyOptions()
-        self.rtc.setBeautyEffectOptions(False, beautyOption)
-
     def checkAppId(self):
-        appId = self.appIdEdit.toPlainText()
+        appId = self.appIdEdit.text()
         if len(appId) == 0:
             return False
         return True
@@ -384,7 +365,7 @@ class MyWindow(QtWidgets.QMainWindow, MainWindow.Ui_MainWindow):
         age_gender_predict = False
 
     def checkChannelName(self):
-        channelName = self.channelEdit.toPlainText()
+        channelName = self.channelEdit.text()
         for char in channelName:
             if ord(char) >= ord('a') and ord(char) <= ord('z'):
                 continue
