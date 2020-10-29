@@ -1,6 +1,8 @@
-# Agora 1-to-1 Face Recognition Python Demo
+# Agora Face Recognition Demo
 
-This is a python demo for Agora 1-to-1 video call extended a new feature -- Real Time Face Recognition. It allows face recognition, emotion detection and age and gender detection.
+*[中文](Readme.zh.md) | English*
+
+This is a python demo for Agora 1-to-1 video call extended a new feature -- Real Time Face Recognition. It supports for face recognition and emotion, age and gender detection.
 
 
 
@@ -9,7 +11,7 @@ This is a python demo for Agora 1-to-1 video call extended a new feature -- Real
 ### Requirements
 
 - Python 3.6+
-- macOS or Linux (Windows not officially supported due to the requirement of dlib required by face_recognition,  but might work)
+- macOS (Windows not officially supported due to the requirement of dlib required by face_recognition, but might work)
 
 ### Dependencies
 
@@ -27,28 +29,30 @@ We encourage you to use [Anaconda](https://www.anaconda.com/) to [create a new s
 conda activate [your-env-name]
 ```
 
-#### 1. Install all required packages via pip (except face_recognition)
+#### 1. Install all required packages via PyPI (except face_recognition)
 
 ```bash
-pip install numpy pyqt5 opencv-python-headless pillow keras
+pip3 install agora-python-sdk numpy pyqt5 opencv-python-headless pillow keras
 ```
 
-#### 2. Install face_recognition (Adapted from [here](https://github.com/ageitgey/face_recognition/blob/master/README.md#installation))
+#### 2. Install face_recognition
 
-##### Installing on macOS or Linux
+*Adapted from [here](https://github.com/ageitgey/face_recognition/blob/master/README.md#installation).*
 
-**First, make sure you have dlib already installed with Python bindings:**
+##### Installing on macOS
+
+**First, make sure you have cmake installed:**
+
+We recommend you to use [Homebrew](https://brew.sh/) on macOS: `brew install cmake`.
+
+**Then, make sure you have dlib already installed with Python bindings:**
 
 - [How to install dlib from source on macOS or Ubuntu](https://gist.github.com/ageitgey/629d75c1baac34dfa5ca2a1928a7aeaf)
 
-**Then, make sure you have cmake installed:**
-
-We recommend you to use [Homebrew](https://brew.sh/) on macOS: `brew install cmake` or apt-get on Ubuntu: `apt-get install cmake`.
-
-**Finally, install this module from pypi using pip:**
+**Finally, install this module from PyPI using pip:**
 
 ```bash
-pip install face_recognition
+pip3 install face_recognition
 ```
 
 ##### Installing on Windows
@@ -57,7 +61,7 @@ While Windows has not been officially supported yet, helpful users have posted i
 
 - [@masoudr's Windows 10 installation guide (dlib + face_recognition)](https://github.com/ageitgey/face_recognition/issues/175#issue-257710508)
 
-or **installing a pre-configured Virtual Machine image**
+or **installing a pre-configured Virtual Machine image**:
 
 - [Download the pre-configured VM image](https://medium.com/@ageitgey/try-deep-learning-in-python-now-with-a-fully-pre-configured-vm-1d97d4c3e9b) (for VMware Player or VirtualBox).
 
@@ -73,32 +77,40 @@ Download the following 2 pre-trained models:
 Create an empty folder called `model` and move the models into the folder via the following directory structure:
 
 ```
-Python-SDK
-├── API-Examples
-│   ├── face-recognition
-│   │   ├── model
-│   │   │   ├── model_v6_23.hdf5
-│   │   │   ├── weights.28-3.73.hdf5
+face_recognition
+├── model
+│   ├── model_v6_23.hdf5
+│   ├── weights.28-3.73.hdf5
 ```
 
-#### 2. (Optional) Add some face photos via the following directory structure
+#### 2. (Optional) Add some face photos
+
+Create an empty folder called `database` and add some face photos via the following directory structure. For each person, create a seperate folder with his or her name.
 
 ```
-Agora-Python-SDK
-├── API-Examples
-│   ├── face-recognition
-│   │   ├── database
-│   │   │   ├── Alice
-│   │   │   │   ├── Alice1.jpg
-│   │   │   │   ├── Alice2.jpg
-│   │   │   ├── Bob
-│   │   │   │   ├── Bob.jpg
+face-recognition
+├── database
+│   ├── Alice
+│   │   ├── Alice1.jpg
+│   │   ├── Alice2.jpg
+│   ├── Bob
+│   │   ├── Bob.jpg
 ```
 
 #### 3. Run Demo
 
-Go to `API-Examples/face-recognition` folder, run `python face_recog.py`
+Go to `face_recognition` folder, run `python3 face_recog.py`.
+
+*If you do not have an App ID, see Appendix.*
 
 
 
-Enjoy : )
+## Appendix
+
+### Create an Account and Obtain an App ID
+
+To use our SDK, you must obtain an app ID: 
+
+1. Create a developer account at [agora.io](https://dashboard.agora.io/signin/). Once you finish the sign-up process, you are redirected to the dashboard.
+2. Navigate in the dashboard tree on the left to **Projects** > **Project List**.
+3. Copy the app ID that you obtained from the dashboard into a text file. You will use it when you call our SDK.
