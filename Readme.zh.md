@@ -8,7 +8,7 @@
 
 ## 索引
 
-- [Agora基础一对一视频电话示例](https://github.com/AgoraIO-Community/Agora-Python-QuickStart/tree/master/basic_one_to_one_video)
+- [Agora基础一对一视频通话示例](https://github.com/AgoraIO-Community/Agora-Python-QuickStart/tree/master/basic_one_to_one_video)
 - [Agora人脸识别示例](https://github.com/AgoraIO-Community/Agora-Python-QuickStart/tree/master/face_recognition)
 
 

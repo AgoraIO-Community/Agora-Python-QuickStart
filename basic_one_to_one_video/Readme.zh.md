@@ -1,4 +1,4 @@
-# Agora基础一对一视频电话示例
+# Agora基础一对一视频通话示例
 
 *[English](README.md) | 中文*
 
