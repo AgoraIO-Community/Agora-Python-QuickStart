@@ -58,7 +58,7 @@
    >>> rtc.joinChannel("", "channel-name", "", 0)
    0 （成功）
    >>> rtc.leaveChannel()  # 离开频道
-   0 （成功
+   0 （成功）
    ```
 
 
