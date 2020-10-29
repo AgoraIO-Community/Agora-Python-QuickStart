@@ -11,7 +11,8 @@ This is a python demo for Agora 1-to-1 video call.
 ### Requirements
 
 - Python 3.6+
-- macOS or Windows
+- Xcode (macOS)
+- Visual Studio 2017+ with C++ (Windows)
 
 ### Dependencies
 

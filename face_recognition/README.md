@@ -12,6 +12,8 @@ This is a python demo for Agora 1-to-1 video call extended a new feature -- Real
 
 - Python 3.6+
 - macOS (Windows not officially supported due to the requirement of dlib required by face_recognition, but might work)
+- Xcode (macOS)
+- Visual Studio 2017+ with C++ (Windows)
 
 ### Dependencies
 

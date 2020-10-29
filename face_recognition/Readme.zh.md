@@ -12,6 +12,8 @@
 
 - Python 3.6+
 - macOS （face_recognition所依赖的dlib目前对Windows尚未正式支持，Windows平台不能保证完美支持）
+- Xcode (macOS)
+- Visual Studio 2017+，需要添加C++支持 (Windows)
 
 ### 依赖包
 

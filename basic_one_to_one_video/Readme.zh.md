@@ -9,7 +9,8 @@
 ### 运行环境
 
 - Python 3.6+
-- macOS or Windows
+- Xcode (macOS)
+- Visual Studio 2017+，需要添加C++支持 (Windows)
 
 ### 依赖包
 
