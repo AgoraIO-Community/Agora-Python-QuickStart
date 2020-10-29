@@ -118,4 +118,4 @@ face_recognition
 
 1. 在[agora.io](https://dashboard.agora.io/signin/)中注册一个账号。当您完成注册后，您将被链接至控制台。
 2. 在控制台左侧点击**Projects** > **Project List**。
-3. 请将您从控制台中获取的App ID保存，您将会在调用SDK时使用。
+3. 请将您从控制台中获取的App ID保存，您将会在运行示例时使用（示例图形化界面中有输入框）。
