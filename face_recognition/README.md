@@ -15,6 +15,7 @@ This is a python demo for Agora 1-to-1 video call extended a new feature -- Real
 
 ### Dependencies
 
+- Agora Python SDK
 - numpy
 - OpenCV (headless)
 - Keras
@@ -65,7 +66,7 @@ or **installing a pre-configured Virtual Machine image**:
 
 - [Download the pre-configured VM image](https://medium.com/@ageitgey/try-deep-learning-in-python-now-with-a-fully-pre-configured-vm-1d97d4c3e9b) (for VMware Player or VirtualBox).
 
-### Run Demo
+## Run Demo
 
 #### 1. Download the required pre-trained models
 
@@ -88,7 +89,7 @@ face_recognition
 Create an empty folder called `database` and add some face photos via the following directory structure. For each person, create a seperate folder with his or her name.
 
 ```
-face-recognition
+face_recognition
 ├── database
 │   ├── Alice
 │   │   ├── Alice1.jpg

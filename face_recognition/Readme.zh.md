@@ -66,7 +66,7 @@ pip3 install face_recognition
 
 - [从这里下载预配置的虚拟机镜像](https://medium.com/@ageitgey/try-deep-learning-in-python-now-with-a-fully-pre-configured-vm-1d97d4c3e9b) （支持VMware Player和VirtualBox）。
 
-### 运行示例
+## 运行示例
 
 #### 1. 下载预训练好的模型
 
@@ -91,7 +91,7 @@ face_recognition
 根据以下文件夹结构，在仓库根目录创建`database`文件夹，并在其中为每一个人创建一个以其名字命名的文件夹，并把照片放入对应文件夹中。
 
 ```
-face-recognition
+face_recognition
 ├── database
 │   ├── 张三
 │   │   ├── 张三1.jpg
