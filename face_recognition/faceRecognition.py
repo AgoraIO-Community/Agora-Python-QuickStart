@@ -118,14 +118,25 @@ class faceRecognition():
         frame_output = cv2.resize(frame, (0, 0), fx=scale, fy=scale)
         for (top, right, bottom, left), name, emotion, gender, age in zip(face_locations, face_names, face_emotions,
                                                                           genders, ages):
-            # Scale back up face locations since the frame we detected in was scaled to 1/4 size
-            top *= int(4 * scale)
-            right *= int(4 * scale)
-            bottom *= int(4 * scale)
-            left *= int(4 * scale)
+            if width <= height:
+                # Scale back up face locations since the frame we detected in was scaled to 1/4 size
+                top *= int(4 * scale)
+                right *= int(4 * scale)
+                bottom *= int(4 * scale)
+                left *= int(4 * scale)
 
-            # Draw a box around the face
-            cv2.rectangle(frame_output, (left, top), (right, bottom), (0, 0, 255), int(2 * scale), 1)
+                # Draw a box around the face
+                cv2.rectangle(frame_output, (left, top), (right, bottom), (0, 0, 255), int(2 * scale), 1)
+
+            else:
+                # Scale back up face locations since the frame we detected in was scaled to 1/4 size
+                top *= int(5 * scale)
+                right *= int(5 * scale)
+                bottom *= int(5 * scale)
+                left *= int(5 * scale)
+
+                # Draw a box around the face
+                cv2.rectangle(frame_output, (left, top), (right, bottom), (0, 0, 255), int(scale), 1)
 
             # Draw a label with a name below the face
             cv2.rectangle(frame_output, (left, bottom - int(40 * scale)), (right, bottom), (0, 0, 255), cv2.FILLED)

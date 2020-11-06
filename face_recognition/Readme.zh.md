@@ -80,7 +80,7 @@ pip3 install face_recognition
 - [emotion_detector_model](https://github.com/priya-dwivedi/face_and_emotion_detection/blob/master/emotion_detector_models/model_v6_23.hdf5)
 - [age_gender_detection_model](https://github.com/yu4u/age-gender-estimation/releases/download/v0.5/weights.28-3.73.hdf5)
 
-根据以下文件夹结构，在仓库根目录创建`model`文件夹，并将模型复制到其中。
+将模型复制到`model`文件夹中。
 
 ```
 face_recognition
@@ -93,16 +93,16 @@ face_recognition
 
 被添加的人脸照片将被读取和识别。例如若您将您自己的照片添加在其中，在您运行示例时，您的人脸将被识别并与您的名字对应。
 
-根据以下文件夹结构，在仓库根目录创建`database`文件夹，并在其中为每一个人创建一个以其名字命名的文件夹，并把照片放入对应文件夹中。
+根据以下文件夹结构，在`database`文件夹中为每一个人创建一个以其名字命名的文件夹，并将照片放入对应文件夹中。例如：
 
 ```
 face_recognition
 ├── database
-│   ├── 张三
-│   │   ├── 张三1.jpg
-│   │   ├── 张三2.jpg
-│   ├── 李四
-│   │   ├── 李四1.jpg
+│   ├── Gaga
+│   │   ├── Gaga1.jpg
+│   ├── Taylor
+│   │   ├── Taylor1.jpg
+│   │   ├── Taylor2.jpg
 ```
 
 #### 3. 运行示例

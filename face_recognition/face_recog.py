@@ -40,6 +40,9 @@ class MyRtcEngineEventHandler(agorartc.RtcEngineEventHandlerBase):
 
     def onLeaveChannel(self, stats):
         print("onLeaveChannel")
+        black_background = QtGui.QPixmap(469, 349)
+        black_background.fill(QtGui.QColor("black"))
+        img_label.setPixmap(black_background)
 
     def onClientRoleChanged(self, oldRole, newRole):
         print("onClientRoleChanged")

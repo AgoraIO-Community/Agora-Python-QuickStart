@@ -39,7 +39,7 @@ conda activate [your-env-name]
 pip3 install agora-python-sdk numpy pyqt5 opencv-python-headless pillow keras tensorflow
 ```
 
-⚠️The related package, h5py, that keras calls may cause an error due to the upgrade of h5py package. If you meet h5py related error when running our demo, please uninstall the current h5py `pip3 uninstall h5py` and install an earlier version `pip install h5py==2.10.0`.
+⚠️The related package, h5py, that keras calls may cause an error due to the update of h5py package. If you meet h5py related error when running our demo, please uninstall the current h5py `pip3 uninstall h5py` and install an earlier version `pip install h5py==2.10.0`.
 
 #### 2. Install face_recognition
 
@@ -80,7 +80,7 @@ Download the following 2 pre-trained models:
 - [emotion_detector_model](https://github.com/priya-dwivedi/face_and_emotion_detection/blob/master/emotion_detector_models/model_v6_23.hdf5)
 - [age_gender_detection_model](https://github.com/yu4u/age-gender-estimation/releases/download/v0.5/weights.28-3.73.hdf5)
 
-Create an empty folder called `model` and move the models into the folder via the following directory structure:
+Copy the models into `model` folder.
 
 ```
 face_recognition
@@ -91,16 +91,16 @@ face_recognition
 
 #### 2. (Optional) Add some face photos
 
-Create an empty folder called `database` and add some face photos via the following directory structure. For each person, create a seperate folder with his or her name.
+Add some face photos to `database` folder via the following directory structure. For each person, create a seperate folder with his or her name.
 
 ```
 face_recognition
 ├── database
-│   ├── Alice
-│   │   ├── Alice1.jpg
-│   │   ├── Alice2.jpg
-│   ├── Bob
-│   │   ├── Bob.jpg
+│   ├── Gaga
+│   │   ├── Gaga1.jpg
+│   ├── Taylor
+│   │   ├── Taylor1.jpg
+│   │   ├── Taylor2.jpg
 ```
 
 #### 3. Run Demo
