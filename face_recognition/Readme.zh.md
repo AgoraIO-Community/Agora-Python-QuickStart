@@ -39,6 +39,8 @@ conda activate [your-env-name]
 pip3 install agora-python-sdk numpy pyqt5 opencv-python-headless pillow keras tensorflow
 ```
 
+⚠️keras依赖的h5py包发布的最新版会造成keras层的问题，如遇到h5py相关报错，请使用`pip3 uninstall h5py`卸载当前h5py并安装早期版本`pip install h5py==2.10.0`。
+
 #### 2. 安装face_recognition
 
 *本小节是从[这里](https://github.com/ageitgey/face_recognition/blob/master/README.md#installation)翻译而来。*

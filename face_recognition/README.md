@@ -39,6 +39,8 @@ conda activate [your-env-name]
 pip3 install agora-python-sdk numpy pyqt5 opencv-python-headless pillow keras tensorflow
 ```
 
+⚠️The related package, h5py, that keras calls may cause an error due to the upgrade of h5py package. If you meet h5py related error when running our demo, please uninstall the current h5py `pip3 uninstall h5py` and install an earlier version `pip install h5py==2.10.0`.
+
 #### 2. Install face_recognition
 
 *Adapted from [here](https://github.com/ageitgey/face_recognition/blob/master/README.md#installation).*
