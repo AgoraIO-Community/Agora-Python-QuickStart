@@ -20,6 +20,7 @@ This is a python demo for Agora 1-to-1 video call extended a new feature -- Real
 - Agora Python SDK
 - numpy
 - OpenCV (headless)
+- TensorFlow
 - Keras
 - PyQt5
 - face_recognition
@@ -35,7 +36,7 @@ conda activate [your-env-name]
 #### 1. Install all required packages via PyPI (except face_recognition)
 
 ```bash
-pip3 install agora-python-sdk numpy pyqt5 opencv-python-headless pillow keras
+pip3 install agora-python-sdk numpy pyqt5 opencv-python-headless pillow keras tensorflow
 ```
 
 #### 2. Install face_recognition
