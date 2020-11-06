@@ -20,6 +20,7 @@
 - Agora Python SDK
 - numpy
 - OpenCV (headless)
+- TensorFlow
 - Keras
 - PyQt5
 - face_recognition
@@ -35,7 +36,7 @@ conda activate [your-env-name]
 #### 1. 通过PyPI安装依赖包（除face_recognition外）
 
 ```bash
-pip3 install agora-python-sdk numpy pyqt5 opencv-python-headless pillow keras
+pip3 install agora-python-sdk numpy pyqt5 opencv-python-headless pillow keras tensorflow
 ```
 
 #### 2. 安装face_recognition
