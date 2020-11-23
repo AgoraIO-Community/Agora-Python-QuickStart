@@ -1,3 +1,5 @@
+import os
+os.environ['QT_MAC_WANTS_LAYER'] = '1'
 import agorartc
 from PyQt5 import QtWidgets, QtGui
 from PyQt5.QtWidgets import QMessageBox

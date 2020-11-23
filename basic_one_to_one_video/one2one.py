@@ -1,3 +1,5 @@
+import os
+os.environ['QT_MAC_WANTS_LAYER'] = '1'
 import sys
 import MainWindow
 import agorartc

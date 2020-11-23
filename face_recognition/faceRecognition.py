@@ -6,6 +6,11 @@ import cv2
 import os
 import time
 
+counter = 0
+face_names = []
+face_emotions = []
+genders = []
+ages = []
 
 class faceRecognition():
 
@@ -71,6 +76,8 @@ class faceRecognition():
         Output
         the processed frame fitting the required size in PIL.image
         """
+        global counter, face_names, face_emotions, genders, ages
+
         frame = cv2.cvtColor(np.asarray(im), cv2.COLOR_RGB2BGR)
 
         # Resize frame of video to 1/4 size for faster face recognition processing
@@ -84,30 +91,32 @@ class faceRecognition():
             face_locations = face_recognition.face_locations(rgb_small_frame)
             face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
 
-            face_names = []
-            face_emotions = []
-            genders = []
-            ages = []
-            for i in range(len(face_encodings)):
-                matches = face_recognition.compare_faces(self.known_face_encodings, face_encodings[i])
-                name = "Unknown"
+            # face_names = []
+            # face_emotions = []
+            # genders = []
+            # ages = []
 
-                face_distances = face_recognition.face_distance(self.known_face_encodings, face_encodings[i])
-                best_match_index = np.argmin(face_distances)
-                if matches[best_match_index]:
-                    name = self.known_face_names[best_match_index]
+            if counter == 0:
+                for i in range(len(face_encodings)):
+                    matches = face_recognition.compare_faces(self.known_face_encodings, face_encodings[i])
+                    name = "Unknown"
 
-                face_names.append(name)
-                top, right, bottom, left = face_locations[i]
-                face_image = rgb_small_frame[top:bottom, left:right]
-                face_emotions.append(self.predict_emotion(face_image))
-                if gender_age:
-                    res = self.predict_gender_age(face_image)
-                    genders.append("M" if np.argmax(res[0], axis=1)[0] == 1 else "F")
-                    ages.append(np.argmax(res[1], axis=1)[0] - 5)
-                else:
-                    genders.append("N/A")
-                    ages.append(-1)
+                    face_distances = face_recognition.face_distance(self.known_face_encodings, face_encodings[i])
+                    best_match_index = np.argmin(face_distances)
+                    if matches[best_match_index]:
+                        name = self.known_face_names[best_match_index]
+
+                    face_names.append(name)
+                    top, right, bottom, left = face_locations[i]
+                    face_image = rgb_small_frame[top:bottom, left:right]
+                    face_emotions.append(self.predict_emotion(face_image))
+                    if gender_age:
+                        res = self.predict_gender_age(face_image)
+                        genders.append("M" if np.argmax(res[0], axis=1)[0] == 1 else "F")
+                        ages.append(np.argmax(res[1], axis=1)[0] - 5)
+                    else:
+                        genders.append("N/A")
+                        ages.append(-1)
 
         # Render output frame
         if not adaptive_size:
@@ -116,6 +125,7 @@ class faceRecognition():
             scale = 349 / height if width > height else 469 / width
 
         frame_output = cv2.resize(frame, (0, 0), fx=scale, fy=scale)
+
         for (top, right, bottom, left), name, emotion, gender, age in zip(face_locations, face_names, face_emotions,
                                                                           genders, ages):
             if width <= height:
@@ -148,4 +158,12 @@ class faceRecognition():
                         0.7 * scale, (255, 255, 255), 1)
 
         im_processed = Image.fromarray(cv2.cvtColor(frame_output, cv2.COLOR_BGR2RGB))
+        if counter < 15:
+            counter += 1
+        else:
+            counter = 0
+            face_names = []
+            face_emotions = []
+            genders = []
+            ages = []
         return im_processed
