@@ -12,6 +12,7 @@ face_emotions = []
 genders = []
 ages = []
 
+
 class faceRecognition():
 
     def __init__(self):
@@ -67,7 +68,7 @@ class faceRecognition():
         result = self.model_enhanced.predict(cv2.resize(face_image, (64, 64)).reshape(-1, 64, 64, 3))
         return result
 
-    def frame_process(self, im, width, height, adaptive_size=True, gender_age=False):
+    def frame_process(self, im, gender_age=False):
         """
         Input
         im: the raw input frame in PIL.image
@@ -91,11 +92,6 @@ class faceRecognition():
             face_locations = face_recognition.face_locations(rgb_small_frame)
             face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
 
-            # face_names = []
-            # face_emotions = []
-            # genders = []
-            # ages = []
-
             if counter == 0:
                 for i in range(len(face_encodings)):
                     matches = face_recognition.compare_faces(self.known_face_encodings, face_encodings[i])
@@ -118,46 +114,10 @@ class faceRecognition():
                         genders.append("N/A")
                         ages.append(-1)
 
-        # Render output frame
-        if not adaptive_size:
-            scale = 469 / width if width > height else 349 / height
-        else:
-            scale = 349 / height if width > height else 469 / width
-
-        frame_output = cv2.resize(frame, (0, 0), fx=scale, fy=scale)
-
-        for (top, right, bottom, left), name, emotion, gender, age in zip(face_locations, face_names, face_emotions,
-                                                                          genders, ages):
-            if width <= height:
-                # Scale back up face locations since the frame we detected in was scaled to 1/4 size
-                top *= int(4 * scale)
-                right *= int(4 * scale)
-                bottom *= int(4 * scale)
-                left *= int(4 * scale)
-
-                # Draw a box around the face
-                cv2.rectangle(frame_output, (left, top), (right, bottom), (0, 0, 255), int(2 * scale), 1)
-
-            else:
-                # Scale back up face locations since the frame we detected in was scaled to 1/4 size
-                top *= int(5 * scale)
-                right *= int(5 * scale)
-                bottom *= int(5 * scale)
-                left *= int(5 * scale)
-
-                # Draw a box around the face
-                cv2.rectangle(frame_output, (left, top), (right, bottom), (0, 0, 255), int(scale), 1)
-
-            # Draw a label with a name below the face
-            cv2.rectangle(frame_output, (left, bottom - int(40 * scale)), (right, bottom), (0, 0, 255), cv2.FILLED)
-            font = cv2.FONT_HERSHEY_DUPLEX
-            if gender != "N/A" or age != -1:
-                cv2.putText(frame_output, gender + "-" + str(age), (left + int(6 * scale), bottom - int(25 * scale)),
-                            font, 0.7 * scale, (255, 255, 255), 1)
-            cv2.putText(frame_output, name + "-" + emotion, (left + int(6 * scale), bottom - int(6 * scale)), font,
-                        0.7 * scale, (255, 255, 255), 1)
-
-        im_processed = Image.fromarray(cv2.cvtColor(frame_output, cv2.COLOR_BGR2RGB))
+        face_names_return = face_names
+        face_emotions_return = face_emotions
+        genders_return = genders
+        ages_return = ages
         if counter < 15:
             counter += 1
         else:
@@ -166,4 +126,6 @@ class faceRecognition():
             face_emotions = []
             genders = []
             ages = []
-        return im_processed
+
+        return [[[f_l[i] * 4 for i in range(len(f_l))] for f_l in face_locations], face_names_return,
+                face_emotions_return, ages_return, genders_return]

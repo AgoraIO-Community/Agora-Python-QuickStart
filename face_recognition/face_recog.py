@@ -1,13 +1,14 @@
 import os
 os.environ['QT_MAC_WANTS_LAYER'] = '1'
 import agorartc
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import QMessageBox
 import MainWindow
 import faceRecognition
 import sys
 from PyQt5 import QtOpenGL
 from PyQt5.QtWidgets import QApplication
+from PyQt5.QtGui import QPainter
 
 import ctypes
 from PIL import Image
@@ -15,8 +16,11 @@ from PIL import Image
 localWinId = -1
 remoteWinId = -1
 
+global painter
+global pixmap
+
 fc = faceRecognition.faceRecognition()
-global img_label
+global draw_label
 age_gender_predict = False
 
 
@@ -42,9 +46,6 @@ class MyRtcEngineEventHandler(agorartc.RtcEngineEventHandlerBase):
 
     def onLeaveChannel(self, stats):
         print("onLeaveChannel")
-        black_background = QtGui.QPixmap(469, 349)
-        black_background.fill(QtGui.QColor("black"))
-        img_label.setPixmap(black_background)
 
     def onClientRoleChanged(self, oldRole, newRole):
         print("onClientRoleChanged")
@@ -54,10 +55,15 @@ class MyRtcEngineEventHandler(agorartc.RtcEngineEventHandlerBase):
         if remoteWinId != -1:
             remoteVideoCanvas = agorartc.createVideoCanvas(remoteWinId)
             remoteVideoCanvas.uid = uid
+            remoteVideoCanvas.renderMode = agorartc.RENDER_MODE_FIT
             self.rtc.setupRemoteVideo(remoteVideoCanvas)
 
     def onUserOffline(self, uid, reason):
         print("onUserOffline")
+        painter.setCompositionMode(QPainter.CompositionMode_Source)
+        painter.fillRect(0, 0, 469, 349, QtCore.Qt.transparent)
+        painter.setCompositionMode(QPainter.CompositionMode_SourceOver)
+        draw_label.setPixmap(pixmap)
 
     def onLastmileQuality(self, quality):
         print("onLastmileQuality")
@@ -264,38 +270,73 @@ class MyVideoFrameObserver(agorartc.VideoFrameObserver):
     def onCaptureVideoFrame(self, width, height, ybuffer, ubuffer, vbuffer):
         global localRawDataCounter
 
-        print("onCaptureVideoFrame: width {}, height {}, ybuffer {}, ubuffer {}, vbuffer {}".format(width, height,
-                                                                                                    ybuffer, ubuffer,
-                                                                                                    vbuffer))
+        # print("onCaptureVideoFrame: width {}, height {}, ybuffer {}, ubuffer {}, vbuffer {}".format(width, height,
+        #                                                                                             ybuffer, ubuffer,
+        #                                                                                             vbuffer))
 
     def onRenderVideoFrame(self, uid, width, height, ybuffer, ubuffer, vbuffer):
         global remoteRawDataCounter
 
-        print("onRenderVideoFrame: uid {}, width {}, height {}, ybuffer {}, ubuffer {}, vbuffer {}".format(uid, width,
-                                                                                                           height,
-                                                                                                           ybuffer,
-                                                                                                           ubuffer,
-                                                                                                           vbuffer))
+        # print("onRenderVideoFrame: uid {}, width {}, height {}, ybuffer {}, ubuffer {}, vbuffer {}".format(uid, width,
+        #                                                                                                    height,
+        #                                                                                                    ybuffer,
+        #                                                                                                    ubuffer,
+        #                                                                                                    vbuffer))
 
         rgba_array = (ctypes.c_ubyte * (width * height * 4)).from_address(ybuffer)
         im = Image.frombuffer('RGBA', (width, height), rgba_array, 'raw', 'RGBA', 0, 1)
-        im_processed = fc.frame_process(im, width, height, adaptive_size=True, gender_age=age_gender_predict)
-        data = im_processed.convert("RGBA")
-        data = data.tobytes("raw", "RGBA")
-        qim = QtGui.QImage(data, im_processed.size[0], im_processed.size[1], QtGui.QImage.Format_RGBA8888)
-        pix = QtGui.QPixmap.fromImage(qim)
-        img_label.setPixmap(pix)
+        im_processed = fc.frame_process(im, gender_age=age_gender_predict)
+
+        global pixmap
+        painter.setCompositionMode(QPainter.CompositionMode_Source)
+        painter.fillRect(0, 0, 469, 349, QtCore.Qt.transparent)
+        painter.setCompositionMode(QPainter.CompositionMode_SourceOver)
+        scale = 469 / width if width > height else 349 / height
+        if len(im_processed[0]) != 0:
+            for i in range(len(im_processed[0])):
+                h = im_processed[0][i][2] - im_processed[0][i][0]
+                name, emotion, age, gender = "", "", "", ""
+                if len(im_processed[1]) > i:
+                    name = im_processed[1][i]
+                    emotion = im_processed[2][i]
+                    if im_processed[3][i] != -1:
+                        age = str(im_processed[3][i])
+                        gender = im_processed[4][i]
+                if width > height:
+                    x, y, a = im_processed[0][i][3] * scale, im_processed[0][i][0] * scale + (
+                                349 - height * scale) / 2, h * scale * 1.2
+                    painter.drawRect(x, y, a, a)
+                    painter.drawText(x, y + a + 15 * scale * 1.2, name + " " + emotion)
+                    painter.drawText(x, y + a + 30 * scale * 1.2, age + " " + gender)
+                else:
+                    x, y, a = im_processed[0][i][3] * scale + (469 - width * scale) / 2, im_processed[0][i][
+                        0] * scale, h * scale * 1.2
+                    painter.drawRect(x, y, a, a)
+                    painter.drawText(x, y + a + 15 * scale * 1.5, name + " " + emotion)
+                    painter.drawText(x, y + a + 40 * scale * 1.2, age + " " + gender)
+
+        draw_label.setPixmap(pixmap)
 
 
 class MyWindow(QtWidgets.QMainWindow, MainWindow.Ui_MainWindow):
     def __init__(self):
-        global eventHandler, context, img_label
+        global eventHandler, context, draw_label, painter, pixmap
         QtWidgets.QMainWindow.__init__(self)
         MainWindow.Ui_MainWindow.__init__(self)
         self.setupUi(self)
         self.window1 = GLwindow()
         self.gridLayout.addWidget(self.window1)
-        img_label = self.img_label
+        self.window2 = GLwindow()
+        self.gridLayout_2.addWidget(self.window2)
+        draw_label = self.draw_label
+        pixmap = QtGui.QPixmap(469, 349)
+        painter = QtGui.QPainter(pixmap)
+        p_r = QtGui.QPen(QtGui.QColor(254, 173, 0))
+        p_r.setWidth(2)
+        painter.setPen(p_r)
+        p_f = QtGui.QFont()
+        p_f.setPixelSize(12)
+        painter.setFont(p_f)
         self.joinButton.clicked.connect(self.joinChannel)
         self.leaveButton.clicked.connect(self.leaveChannel)
         self.enableButton.clicked.connect(self.enableLocalVideo)
@@ -314,6 +355,7 @@ class MyWindow(QtWidgets.QMainWindow, MainWindow.Ui_MainWindow):
     def joinChannel(self):
         global localWinId, remoteWinId
         localWinId = self.window1.effectiveWinId().__int__()
+        remoteWinId = self.window2.effectiveWinId().__int__()
 
         if self.checkAppId() == False:
             QMessageBox.information(self, "Message",
@@ -339,7 +381,7 @@ class MyWindow(QtWidgets.QMainWindow, MainWindow.Ui_MainWindow):
         self.rtc.initialize(self.appIdEdit.text(), None, agorartc.AREA_CODE_GLOB & 0xFFFFFFFF)
         self.rtc.enableVideo()
         localVideoCanvas = agorartc.createVideoCanvas(localWinId)
-        ret = self.rtc.setupLocalVideo(localVideoCanvas)
+        _ = self.rtc.setupLocalVideo(localVideoCanvas)
         channelName = self.channelEdit.text()
         self.rtc.joinChannel("", channelName, "", 0)
         self.rtc.startPreview()
@@ -348,6 +390,10 @@ class MyWindow(QtWidgets.QMainWindow, MainWindow.Ui_MainWindow):
     def leaveChannel(self):
         self.rtc.leaveChannel()
         agorartc.unregisterVideoFrameObserver(self.rtc, self.videoFrameObserver)
+        painter.setCompositionMode(QPainter.CompositionMode_Source)
+        painter.fillRect(0, 0, 469, 349, QtCore.Qt.transparent)
+        painter.setCompositionMode(QPainter.CompositionMode_SourceOver)
+        draw_label.setPixmap(pixmap)
 
     def enableLocalVideo(self):
         self.rtc.enableLocalVideo(True)
