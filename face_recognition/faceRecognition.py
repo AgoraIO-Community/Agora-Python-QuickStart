@@ -27,9 +27,12 @@ class faceRecognition():
                     if (".jpg" in file) or (".jpeg" in file) or (".png" in file) or (".JPEG" in file):
                         img_path = r + "/" + file
                         img = face_recognition.load_image_file(img_path)
-                        img_face_encoding = face_recognition.face_encodings(img)[0]
-                        self.known_face_encodings.append(img_face_encoding)
-                        self.known_face_names.append(file[: file.find(".")])
+                        if len(face_recognition.face_encodings(img)) == 0:
+                            print("WARNING: There is no face in " + str(file) + ".")
+                        else:
+                            img_face_encoding = face_recognition.face_encodings(img)[0]
+                            self.known_face_encodings.append(img_face_encoding)
+                            self.known_face_names.append(file[: file.find(".")])
         if len(self.known_face_names) == 0:
             print("WARNING: There is no image in this path ( ", db_path, ") . Face recognition will not be performed.")
         else:
