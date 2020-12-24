@@ -98,11 +98,11 @@ face_recognition
 ```
 face_recognition
 ├── database
-│   ├── Gaga
-│   │   ├── Gaga1.jpg
-│   ├── Taylor
-│   │   ├── Taylor1.jpg
-│   │   ├── Taylor2.jpg
+│   ├── Jackie
+│   │   ├── Jackie1.jpg
+│   ├── Ye
+│   │   ├── Ye1.jpg
+│   │   ├── Ye2.jpg
 ```
 
 #### 3. 运行示例
