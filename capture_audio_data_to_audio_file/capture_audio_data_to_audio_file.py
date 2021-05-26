@@ -1,4 +1,11 @@
 import agorartc
+import ctypes
+import wave
+
+audio_data = b''
+channel = -1
+samplewidth = -1
+framerate = -1
 
 
 class MyRtcEngineEventHandler(agorartc.RtcEngineEventHandlerBase):
@@ -231,20 +238,28 @@ class MyRtcEngineEventHandler(agorartc.RtcEngineEventHandlerBase):
 
 class MyAudioFrameObserver(agorartc.AudioFrameObserver):
     def onRecordAudioFrame(self, type1, samples, bytesPerSample, channels, samplesPerSec, buffer1, renderTimeMs, avsync_type):
-        print("onRecordAudioFrame: type {}, samples {}, bytesPerSample {}, channels {}, samplesPerSec {}, buffer {}, renderTimeMs {}, avsync_type {}".format(\
-                                                 type1, samples, bytesPerSample, channels, samplesPerSec, buffer1, renderTimeMs, avsync_type))
+        pass
 
     def onPlaybackAudioFrame(self, type1, samples, bytesPerSample, channels, samplesPerSec, buffer1, renderTimeMs, avsync_type):
-        print("onPlaybackAudioFrame: type {}, samples {}, bytesPerSample {}, channels {}, samplesPerSec {}, buffer {}, renderTimeMs {}, avsync_type {}".format(\
-                                                 type1, samples, bytesPerSample, channels, samplesPerSec, buffer1, renderTimeMs, avsync_type))
+        pass
 
     def onMixedAudioFrame(self, type1, samples, bytesPerSample, channels, samplesPerSec, buffer1, renderTimeMs, avsync_type):
+        print(">>>>>>>> Input any character to stop audio capture and save audio data into a wave file.")
         print("onMixedAudioFrame: type {}, samples {}, bytesPerSample {}, channels {}, samplesPerSec {}, buffer {}, renderTimeMs {}, avsync_type {}".format(\
                                                  type1, samples, bytesPerSample, channels, samplesPerSec, buffer1, renderTimeMs, avsync_type))
+        global audio_data, channel, samplewidth, framerate
+        if channel == -1:
+            channel = channels
+        if samplewidth == -1:
+            samplewidth = bytesPerSample
+        if framerate == -1:
+            framerate = samplesPerSec
+
+        audio_array = (ctypes.c_ubyte * samples * bytesPerSample * channels).from_address(buffer1)
+        audio_data += bytes(audio_array)
 
     def onPlaybackAudioFrameBeforeMixing(self, uid, type1, samples, bytesPerSample, channels, samplesPerSec, buffer1, renderTimeMs, avsync_type):
-        print("onPlaybackAudioFrameBeforeMixing: type {}, samples {}, bytesPerSample {}, channels {}, samplesPerSec {}, buffer {}, renderTimeMs {}, avsync_type {}".format(\
-                                                 type1, samples, bytesPerSample, channels, samplesPerSec, buffer1, renderTimeMs, avsync_type))
+        pass
 
 
 rtc = agorartc.createRtcEngineBridge()
@@ -259,5 +274,15 @@ rtc.enableVideo()
 agorartc.registerAudioFrameObserver(rtc, afo)
 input()  # Press any key to come to an end.
 agorartc.unregisterAudioFrameObserver(rtc, afo)
+
+# Save the audio data into a wave file.
+if channel != -1 and samplewidth != -1 and framerate != -1:
+    print(">>>>>>>> Start saving audio data.")
+    with wave.open("sound.wav", "wb") as f:
+        f.setnchannels(channel)
+        f.setsampwidth(samplewidth)
+        f.setframerate(framerate)
+        f.writeframesraw(audio_data)
+
 rtc.leaveChannel()
 rtc.release()
